@@ -14,7 +14,7 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        q = "SELECT Id, casenumber, Actual_Account__c, ownerid FROM case WHERE casenumber LIKE '%" + req.body.text + "%' LIMIT 5";
+        q = "SELECT Id, casenumber, Actual_Account__c, contactid, ownerid, subject FROM case WHERE casenumber LIKE '%" + req.body.text + "%' LIMIT 5";
 
     force.query(oauthObj, q)
         .then(data => {
@@ -23,15 +23,18 @@ exports.execute = (req, res) => {
                 let attachments = [];
                 cases.forEach(function (_case) {
                     let fields = [];
-                    fields.push({title: "Caseid", value: _case.id, short: true});
-                   
+                    fields.push({title: "Case Number", value: _case.casenumber, short: true});
+                    fields.push({title: "Owner", value: _case.ownerid, short: true});
+                    fields.push({title: "Account", value: _case.Actual_Account__c, short: true});
+                    fields.push({title: "Contact", value: _case.contactid, short: true});
+                    fields.push({title: "subject", value: _case.subject, short: false});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
                         fields: fields
                     });
                 });
-                res.json({text: "Cases matching '" + req.body.text + "':", attachments: attachments});
+                res.json({text: "Found a match:", attachments: attachments});
             } else {
                 res.send("No records");
             }
