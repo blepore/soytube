@@ -6,6 +6,7 @@ let express = require('express'),
     contact = require('./modules/contact'),
     account = require('./modules/account'),
     opportunity = require('./modules/opportunity'),
+    caseupdate = require('./modules/caseupdate'),
     _case = require('./modules/case'),
     whoami = require('./modules/whoami'),
     actions = require('./modules/actions'),
@@ -24,6 +25,7 @@ app.post('/actions', actions.handle);
 app.post('/pipeline', opportunity.execute);
 app.post('/contact', contact.execute);
 app.post('/account', account.execute);
+app.post('/caseupdate', caseupdate.execute);
 app.post('/case', _case.execute);
 app.post('/whoami', whoami.execute);
 app.post('/login', auth.loginLink);
