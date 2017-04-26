@@ -36,7 +36,11 @@
         "description": "Slack token for the pipeline slash command",
         "value":"",
         "required":false
-
+    },
+    "SLACK_CASEQUERY_TOKEN": {
+        "description": "Slack token for the casequery slash command",
+        "value":"",
+        "required":false
     },
     "SLACK_CASEUPDATE_TOKEN": {
         "description": "Slack token for the caseupdate slash command",
