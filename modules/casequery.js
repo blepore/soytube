@@ -14,10 +14,7 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        limit = req.body.text,
-        q = "select id from case where CaseNumber = " + limit;
-
-    if (!limit || limit=="") limit = 5;
+        q = "SELECT Id, casenumber, Actual_Account__c, ownerid FROM case WHERE casenumber LIKE '%" + req.body.text + "%' LIMIT 5";
 
     force.query(oauthObj, q)
         .then(data => {
@@ -34,10 +31,7 @@ exports.execute = (req, res) => {
                         fields: fields
                     });
                 });
-                res.json({
-                    text: "Top " + limit + " opportunities in the pipeline:",
-                    attachments: attachments
-                });
+                res.json({text: "Cases matching '" + req.body.text + "':", attachments: attachments});
             } else {
                 res.send("No records");
             }
