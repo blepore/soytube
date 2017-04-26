@@ -3,11 +3,11 @@
 let auth = require("./slack-salesforce-auth"),
     force = require("./force"),
 
-    OPPORTUNITY_TOKEN = process.env.SLACK_OPPORTUNITY_TOKEN;
+    CASEQUERY_TOKEN = process.env.SLACK_CASEQUERY_TOKEN;
 
 exports.execute = (req, res) => {
 
-    if (req.body.token != OPPORTUNITY_TOKEN) {
+    if (req.body.token != CASEQUERY_TOKEN) {
         res.send("Invalid token");
         return;
     }
