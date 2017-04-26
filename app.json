@@ -38,6 +38,11 @@
         "required":false
 
     },
+    "SLACK_CASEUPDATE_TOKEN": {
+        "description": "Slack token for the caseupdate slash command",
+        "value":"",
+        "required":false
+    },
     "SLACK_CASE_TOKEN": {
         "description": "Slack token for the case slash command",
         "value":"",
