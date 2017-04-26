@@ -24,11 +24,11 @@ exports.execute = (req, res) => {
             let cases = JSON.parse(data).records;
             if (cases && cases.length > 0) {
                 let attachments = [];
-                cases.forEach(function (case) {
+                cases.forEach(function (_case) {
                     let fields = [];
-                    fields.push({title: "Caseid", value: case.id, short: true});
+                    fields.push({title: "Caseid", value: _case.id, short: true});
                    
-                    fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + case.Id, short:false});
+                    fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
                         fields: fields
