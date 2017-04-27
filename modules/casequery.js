@@ -14,7 +14,7 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        q = "SELECT Id, casenumber, Actual_Account__c, contactid, ownerid, subject, priority, status FROM case WHERE casenumber LIKE '%" + req.body.text + "%' LIMIT 5";
+        q = "SELECT Id, CaseNumber, Actual_Account__c, ContactId, OwnerId, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + req.body.text + "%' LIMIT 5";
 
     force.query(oauthObj, q)
         .then(data => {
@@ -23,13 +23,13 @@ exports.execute = (req, res) => {
                 let attachments = [];
                 cases.forEach(function (_case) {
                     let fields = [];
-                    fields.push({title: "Case Number", value: _case.casenumber, short: true});
-                    fields.push({title: "Owner", value: _case.ownerid, short: true});
+                    fields.push({title: "Case Number", value: _case.CaseNumber, short: true});
+                    fields.push({title: "Owner", value: _case.OwnerId, short: true});
                     fields.push({title: "Account", value: _case.Actual_Account__c, short: true});
-                    fields.push({title: "Contact", value: _case.contactid, short: true});
-                    fields.push({title: "Status", value: _case.status, short: true});
-                    fields.push({title: "Priority", value: _case.priority, short: true});
-                    fields.push({title: "Subject", value: _case.subject, short: false});
+                    fields.push({title: "Contact", value: _case.ContactId, short: true});
+                    fields.push({title: "Status", value: _case.Status, short: true});
+                    fields.push({title: "Priority", value: _case.Priority, short: true});
+                    fields.push({title: "Subject", value: _case.Subject, short: false});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
