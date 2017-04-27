@@ -36,7 +36,7 @@ exports.execute = (req, res) => {
                         fields: fields
                     });
                 });
-                res.json({text: "Found a match:", attachments: attachments});
+                res.json({text: "Found a match for '" + req.body.text + "':", attachments: attachments});
             } else {
                 res.send("No records");
             }
