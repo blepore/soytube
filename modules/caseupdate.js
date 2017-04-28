@@ -40,7 +40,7 @@ exports.execute = (req, res) => {
                         fields: fields
                     });
                 });
-                res.json({text: "Found a match for '" + casenumber + "' updating Status to " + newstatus, attachments: attachments});
+                res.json({text: "Found a match for '" + "' updating Status to " , attachments: attachments});
             } else {
                 res.send("No records");
             }
