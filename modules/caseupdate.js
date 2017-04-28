@@ -14,39 +14,29 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        limit = req.body.text,
-        q = "SELECT Id, Name, Amount, Probability, StageName, CloseDate FROM Opportunity where isClosed=false ORDER BY amount DESC LIMIT " + limit;
-
-    if (!limit || limit=="") limit = 5;
+        q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + req.body.text + "%' LIMIT 5";
 
     force.query(oauthObj, q)
         .then(data => {
-            let opportunities = JSON.parse(data).records;
-            if (opportunities && opportunities.length > 0) {
+            let cases = JSON.parse(data).records;
+            if (cases && cases.length > 0) {
                 let attachments = [];
-                opportunities.forEach(function (opportunity) {
+                cases.forEach(function (_case) {
                     let fields = [];
-                    fields.push({title: "Opportunity", value: opportunity.Name, short: true});
-                    fields.push({title: "Stage", value: opportunity.StageName, short: true});
-                    fields.push({
-                        title: "Amount",
-                        value: new Intl.NumberFormat('en-US', {
-                            style: 'currency',
-                            currency: 'USD'
-                        }).format(opportunity.Amount),
-                        short: true
-                    });
-                    fields.push({title: "Probability", value: opportunity.Probability + "%", short: true});
-                    fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + opportunity.Id, short:false});
+                    fields.push({title: "Case Number", value: _case.CaseNumber, short: true});
+                    fields.push({title: "Owner", value: _case.Owner.Alias, short: true});
+                    fields.push({title: "Account", value: _case.Actual_Account__c, short: true});
+                    fields.push({title: "Contact", value: _case.Contact.LastName + ', ' + _case.Contact.FirstName, short: true});
+                    fields.push({title: "Status", value: _case.Status, short: true});
+                    fields.push({title: "Priority", value: _case.Priority, short: true});
+                    fields.push({title: "Subject", value: _case.Subject, short: false});
+                    fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
                         fields: fields
                     });
                 });
-                res.json({
-                    text: "Top " + limit + " opportunities in the pipeline:",
-                    attachments: attachments
-                });
+                res.json({text: "Found a match for '" + req.body.text + "':", attachments: attachments});
             } else {
                 res.send("No records");
             }
