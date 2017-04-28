@@ -18,7 +18,12 @@ exports.execute = (req, res) => {
         casenumber = params[0],
         newstatus = params[1],
         q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
-
+    
+    force.update(oauthObj,"Case",
+        {
+            id: q.Id,
+            status: newstatus
+        })
     force.query(oauthObj, q)
         .then(data => {
             let cases = JSON.parse(data).records;
@@ -44,6 +49,7 @@ exports.execute = (req, res) => {
                 res.send("No records");
             }
         })
+    
         .catch(error => {
             if (error.code == 401) {
                 res.send(`Visit this URL to login to Salesforce: https://${req.hostname}/login/` + slackUserId);
