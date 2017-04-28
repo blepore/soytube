@@ -14,7 +14,7 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        q = "SELECT Id, CaseNumber, Actual_Account__c, ContactId, OwnerId, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + req.body.text + "%' LIMIT 5";
+        q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + req.body.text + "%' LIMIT 5";
 
     force.query(oauthObj, q)
         .then(data => {
@@ -24,9 +24,9 @@ exports.execute = (req, res) => {
                 cases.forEach(function (_case) {
                     let fields = [];
                     fields.push({title: "Case Number", value: _case.CaseNumber, short: true});
-                    fields.push({title: "Owner", value: _case.OwnerId, short: true});
+                    fields.push({title: "Owner", value: _case.Owner.Alias, short: true});
                     fields.push({title: "Account", value: _case.Actual_Account__c, short: true});
-                    fields.push({title: "Contact", value: _case.ContactId, short: true});
+                    fields.push({title: "Contact", value: _case.Contact.LastName, short: true});
                     fields.push({title: "Status", value: _case.Status, short: true});
                     fields.push({title: "Priority", value: _case.Priority, short: true});
                     fields.push({title: "Subject", value: _case.Subject, short: false});
