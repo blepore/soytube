@@ -14,7 +14,11 @@ exports.execute = (req, res) => {
 
     let slackUserId = req.body.user_id,
         oauthObj = auth.getOAuthObject(slackUserId),
-        q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + req.body.text + "%' LIMIT 5";
+        params = req.body.text.split(":"),
+        casenumber = params[0],
+        newstatus = params[1];
+    
+        q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
 
     force.query(oauthObj, q)
         .then(data => {
@@ -36,7 +40,7 @@ exports.execute = (req, res) => {
                         fields: fields
                     });
                 });
-                res.json({text: "Found a match for '" + req.body.text + "':", attachments: attachments});
+                res.json({text: "Found a match for '" + casenumber + "' updating Status to " + newstatus, attachments: attachments});
             } else {
                 res.send("No records");
             }
