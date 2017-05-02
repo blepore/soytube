@@ -19,19 +19,17 @@ exports.execute = (req, res) => {
         newstatus = params[1],
         q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
     
-    force.update(oauthObj, 'Case', 
-        {
-         Id: "500V0000005zeIrIAI", 
-         Status: newstatus
-        }
-    )
-    .then(
-        function(response) {
-            console.log(response);
-        },
-    function(error) {
-        console.log(error);
-    });
+    // Single record update
+    conn.sobject("Case").update(
+       { 
+           Id : '500V0000005zeIrIAI',
+           Status : 'Support - In Progress'
+       }, 
+       function(err, ret) {
+           if (err || !ret.success) { return console.error(err, ret); }
+           console.log('Updated Successfully : ' + ret.id);
+       }
+    );
     
     force.query(oauthObj, q)
         .then(data => {
