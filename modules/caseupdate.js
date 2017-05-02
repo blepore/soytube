@@ -22,7 +22,7 @@ exports.execute = (req, res) => {
     // Single record update
     force.update(oauthObj, "Case",
        { 
-           Id : '500V0000005zeIrIAI',
+           Id : q.Id,
            Status : newstatus
        }, 
        function(err, ret) {
