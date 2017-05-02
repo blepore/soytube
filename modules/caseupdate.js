@@ -20,16 +20,16 @@ exports.execute = (req, res) => {
         q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
     
     // Single record update
-    force.update(oauthObj, "Case",
-       { 
-           Id : q.Id,
-           Status : newstatus
-       }, 
-       function(err, ret) {
-           if (err || !ret.success) { return console.error(err, ret); }
-           console.log('Updated Successfully : ' + ret.id);
-       }
-    );
+    //force.update(oauthObj, "Case",
+    //   { 
+    //       Id : q.Id,
+    //       Status : newstatus
+    //   }, 
+    //   function(err, ret) {
+    //       if (err || !ret.success) { return console.error(err, ret); }
+    //       console.log('Updated Successfully : ' + ret.id);
+    //   }
+    //);
     
     force.query(oauthObj, q)
         .then(data => {
@@ -38,11 +38,22 @@ exports.execute = (req, res) => {
                 let attachments = [];
                 cases.forEach(function (_case) {
                     let fields = [];
+                    //update each case with new status
+                    force.update(oauthObj, "Case",
+                        {
+                            Id : _case.Id,
+                            Status : newstatus
+                        },
+                        function(err, ret) {
+                            if (err || !ret.success) { return console.error(err, ret); }
+                            console.log('Updated Successfully : ' + ret.id);
+                        }
+                    );
                     fields.push({title: "Case Number", value: _case.CaseNumber, short: true});
                     fields.push({title: "Owner", value: _case.Owner.Alias, short: true});
                     fields.push({title: "Account", value: _case.Actual_Account__c, short: true});
                     fields.push({title: "Contact", value: _case.Contact.LastName + ', ' + _case.Contact.FirstName, short: true});
-                    fields.push({title: "Status", value: _case.Status, short: true});
+                    fields.push({title: "Status", value: newstatus, short: true});
                     fields.push({title: "Priority", value: _case.Priority, short: true});
                     fields.push({title: "Subject", value: _case.Subject, short: false});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
