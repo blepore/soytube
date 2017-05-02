@@ -20,7 +20,7 @@ exports.execute = (req, res) => {
         q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
     
     // Single record update
-    conn.sobject("Case").update(
+    force.update(oauthObj, "Case",
        { 
            Id : '500V0000005zeIrIAI',
            Status : 'Support - In Progress'
