@@ -19,9 +19,9 @@ exports.execute = (req, res) => {
         newstatus = params[1],
         q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
     
-    force.update('case', 
+    force.update(oauthObj, 'Case', 
         {
-         Id: '500V0000005zeIrIAI', 
+         Id: "500V0000005zeIrIAI", 
          Status: newstatus
         }
     )
