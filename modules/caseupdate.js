@@ -23,7 +23,7 @@ exports.execute = (req, res) => {
     force.update(oauthObj, "Case",
        { 
            Id : '500V0000005zeIrIAI',
-           Status : 'Support - In Progress'
+           Status : newstatus
        }, 
        function(err, ret) {
            if (err || !ret.success) { return console.error(err, ret); }
