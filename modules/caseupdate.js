@@ -21,7 +21,7 @@ exports.execute = (req, res) => {
     
     force.update('case', 
         {
-         Id: q.Id, 
+         Id: '500V0000005zeIrIAI', 
          Status: newstatus
         }
     )
