@@ -19,18 +19,6 @@ exports.execute = (req, res) => {
         newstatus = params[1],
         q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
     
-    // Single record update
-    //force.update(oauthObj, "Case",
-    //   { 
-    //       Id : q.Id,
-    //       Status : newstatus
-    //   }, 
-    //   function(err, ret) {
-    //       if (err || !ret.success) { return console.error(err, ret); }
-    //       console.log('Updated Successfully : ' + ret.id);
-    //   }
-    //);
-    
     force.query(oauthObj, q)
         .then(data => {
             let cases = JSON.parse(data).records;
