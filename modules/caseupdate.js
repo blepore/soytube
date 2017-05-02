@@ -44,6 +44,7 @@ exports.execute = (req, res) => {
                     fields.push({title: "Status", value: newstatus, short: true});
                     fields.push({title: "Priority", value: _case.Priority, short: true});
                     fields.push({title: "Subject", value: _case.Subject, short: false});
+                    fields.push({title: "Updater", value: slackUserId, short: false});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
