@@ -17,7 +17,7 @@ exports.execute = (req, res) => {
         params = req.body.text.split(":"),
         casenumber = params[0],
         newstatus = params[1],
-        q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
+        q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, OwnerId, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
     
     force.query(oauthObj, q)
         .then(data => {
@@ -30,7 +30,8 @@ exports.execute = (req, res) => {
                     force.update(oauthObj, "Case",
                         {
                             Id : _case.Id,
-                            Status : newstatus
+                            Status : newstatus,
+                            OwnerId : _case.OwnerId
                         },
                         function(err, ret) {
                             if (err || !ret.success) { return console.error(err, ret); }
