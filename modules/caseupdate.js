@@ -35,7 +35,7 @@ exports.execute = (req, res) => {
                         },
                         function(err, ret) {
                             if (err || !ret.success) { return console.error(err, ret); }
-                            console.log('Updated Successfully : ' + ret.id);
+                            console.log('Updated Successfully: ' + ret.id);
                         }
                     );
                     fields.push({title: "Case Number", value: _case.CaseNumber, short: true});
