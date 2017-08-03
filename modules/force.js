@@ -99,7 +99,7 @@ let update = (oauth, objectName, data) => {
     return sfrequest(oauth, '/services/data/' + API_VERSION + '/sobjects/' + objectName + '/' + id,
         {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json','Sforce-Auto-Assign': 'False'},
             qs: {'_HttpMethod': 'PATCH'},
             json: true,
             body: fields
