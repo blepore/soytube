@@ -22,6 +22,7 @@ exports.execute = (req, res) => {
     force.query(oauthObj, q)
         .then(data => {
             let cases = JSON.parse(data).records;
+            let userInfo = JSON.parse(data);
             if (cases && cases.length > 0) {
                 let attachments = [];
                 cases.forEach(function (_case) {
@@ -46,6 +47,7 @@ exports.execute = (req, res) => {
                     fields.push({title: "Priority", value: _case.Priority, short: true});
                     fields.push({title: "Subject", value: _case.Subject, short: false});
                     fields.push({title: "Updater", value: slackUserId, short: false});
+                    fields.push({title: "Updater SFID", value: userInfo.user_id, short: true});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
