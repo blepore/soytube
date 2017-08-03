@@ -26,9 +26,7 @@ exports.execute = (req, res) => {
                 let attachments = [];
                 cases.forEach(function (_case) {
                     let fields = [];
-                    //update each case with new status
-                    //Mike Garrett had to add the headers section to this call to get it to stop forcing the case auto-assignment rules on me.  Works like a champ now.  Hope it helps:
-                    //sf.Case.update(Id,{'Next_Contact_Date__c':'2016-06-27','Status':'New'},headers={'Sforce-Auto-Assign': 'False'})
+                    //update each case with new status and assign case to 'Updater'
                     force.update(oauthObj, "Case",
                         {
                             Id : _case.Id,
