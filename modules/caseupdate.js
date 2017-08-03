@@ -22,12 +22,13 @@ exports.execute = (req, res) => {
     force.query(oauthObj, q)
         .then(data => {
             let cases = JSON.parse(data).records;
-            let userInfo = JSON.parse(data);
+            //let userInfo = JSON.parse(data);
             if (cases && cases.length > 0) {
                 let attachments = [];
                 cases.forEach(function (_case) {
                     let fields = [];
                     //update each case with new status and assign case to 'Updater'
+                    let userInfo = JSON.parse(data);
                     force.update(oauthObj, "Case",
                         {
                             Id : _case.Id,
