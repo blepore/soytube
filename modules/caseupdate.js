@@ -31,7 +31,7 @@ exports.execute = (req, res) => {
                         {
                             Id : _case.Id,
                             Status : newstatus,
-                            OwnerId : _case.OwnerId
+                            //OwnerId : _case.OwnerId
                         },
                         function(err, ret) {
                             if (err || !ret.success) { return console.error(err, ret); }
