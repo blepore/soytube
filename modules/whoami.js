@@ -22,7 +22,7 @@ exports.execute = (req, res) => {
             let fields = [];
             fields.push({title: "Name", value: userInfo.name, short:true});
             fields.push({title: "Salesforce User Name", value: userInfo.preferred_username, short:true});
-            fields.push({title: "SF user id", value: userInfo.id, short:true});
+            fields.push({title: "SF user id", value: userInfo.user_id, short:true});
             attachments.push({color: "#65CAE4", fields: fields});
             res.json({text: "Your User Information:", attachments: attachments});
         })
