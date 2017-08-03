@@ -28,7 +28,7 @@ exports.execute = (req, res) => {
                 cases.forEach(function (_case) {
                     let fields = [];
                     //update each case with new status and assign case to 'Updater'
-                    let userInfo = JSON.parse(data);
+                    //let userInfo = JSON.parse(data);
                     force.update(oauthObj, "Case",
                         {
                             Id : _case.Id,
@@ -48,7 +48,7 @@ exports.execute = (req, res) => {
                     fields.push({title: "Priority", value: _case.Priority, short: true});
                     fields.push({title: "Subject", value: _case.Subject, short: false});
                     fields.push({title: "Updater", value: slackUserId, short: false});
-                    fields.push({title: "Updater SFID", value: userInfo.user_id, short: true});
+                    fields.push({title: "Updater SFID", value: _case.userInfo.user_id, short: true});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
