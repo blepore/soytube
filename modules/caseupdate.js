@@ -22,7 +22,7 @@ exports.execute = (req, res) => {
     force.whoami(oauthObj)
         .then(data => {
             let userInfo = JSON.parse(data);
-        }
+        })
     
     force.query(oauthObj, q)
         .then(data => {
