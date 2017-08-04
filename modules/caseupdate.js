@@ -19,6 +19,11 @@ exports.execute = (req, res) => {
         newstatus = params[1],
         q = "SELECT Id, CaseNumber, Actual_Account__c, Contact.FirstName, Contact.LastName, Owner.Alias, OwnerId, Subject, Priority, Status FROM Case WHERE CaseNumber LIKE '%" + casenumber + "%' LIMIT 5";
     
+    force.whoami(oauthObj)
+        .then(data => {
+            let userInfo = JSON.parse(data);
+        }
+    
     force.query(oauthObj, q)
         .then(data => {
             let cases = JSON.parse(data).records;
@@ -48,7 +53,7 @@ exports.execute = (req, res) => {
                     fields.push({title: "Priority", value: _case.Priority, short: true});
                     fields.push({title: "Subject", value: _case.Subject, short: false});
                     fields.push({title: "Updater", value: slackUserId, short: false});
-                    fields.push({title: "Updater SFID", value: oauthObj.user_id, short: true});
+                    fields.push({title: "Updater SFID", value: userInfo.user_id, short: true});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
