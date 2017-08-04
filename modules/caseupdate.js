@@ -22,6 +22,7 @@ exports.execute = (req, res) => {
     force.whoami(oauthObj)
         .then(data => {
             let userInfo = JSON.parse(data);
+            let SFuserid = userInfo.user_id
         })
     
     force.query(oauthObj, q)
@@ -53,7 +54,7 @@ exports.execute = (req, res) => {
                     fields.push({title: "Priority", value: _case.Priority, short: true});
                     fields.push({title: "Subject", value: _case.Subject, short: false});
                     fields.push({title: "Updater", value: slackUserId, short: false});
-                    fields.push({title: "Updater SFID", value: userInfo.user_id, short: true});
+                    fields.push({title: "Updater SFID", value: SFuserid, short: true});
                     fields.push({title: "Open in Salesforce:", value: oauthObj.instance_url + "/" + _case.Id, short:false});
                     attachments.push({
                         color: "#FCB95B",
