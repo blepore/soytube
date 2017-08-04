@@ -22,7 +22,7 @@ exports.execute = (req, res) => {
     force.whoami(oauthObj)
         .then(data => {
             let userInfo = JSON.parse(data);
-            let SFuserid = userInfo.user_id
+            //let SFuserid = userInfo.user_id
         })
     
     force.query(oauthObj, q)
@@ -34,7 +34,7 @@ exports.execute = (req, res) => {
                 cases.forEach(function (_case) {
                     let fields = [];
                     //update each case with new status and assign case to 'Updater'
-                    //let userInfo = JSON.parse(data);
+                    let SFuserid = _case.user_id;
                     force.update(oauthObj, "Case",
                         {
                             Id : _case.Id,
